@@ -6,14 +6,13 @@ function preload(){
 }
 
 function setup() {
-  cnv = createCanvas(800,800);
-  amplitude = new p5.Amplitude(); 
-  fft = new p5.FFT();
-  sound.amp(0.2);
+  cnv = createCanvas(800,800); 
+  amplitude = new p5.Amplitude();   // creating variable that measure volume 
+  fft = new p5.FFT();               // creating variable that uses FFT algorithm (to isolate specific frequencies), used for wave shape
+  sound.amp(0.2);                   // limits output volume so the wave doesn't go too crazy 
 
-// play and pause depending on mouse click 
-  cnv.mouseClicked(function() {
-    if (sound.isPlaying() ){
+  cnv.mouseClicked(function() {     // cnv variable used here for when mouse is clicked on canvas 
+    if (sound.isPlaying() ){        // play and pause depending on mouse click 
       sound.stop();
     } else {
       sound.play();
@@ -22,16 +21,15 @@ function setup() {
 }
 
 function draw() {
-
-// triangle that will expand according to amplitude 
-
-background(0);
-fill(53,167,156);
-var level = amplitude.getLevel();
-var size = map(level, 0, 1, 0, 200);
-triangle(400, 260-size, 240-size, 520+size, 560+size, 520+size);
   
-    stroke(190,41,236);
+background(0);    
+fill(53,167,156);
+var level = amplitude.getLevel();    
+var size = map(level, 0, 1, 0, 200);          // function changes the range of the values according to the amplitude level
+triangle(400, 260-size, 240-size, 520+size, 560+size, 520+size);      // triangle that will expand according to amplitude 
+  
+
+    stroke(190,41,236);   // other triangles 
     strokeWeight(1);
 
     fill(104,196,175);
@@ -55,15 +53,13 @@ triangle(400, 260-size, 240-size, 520+size, 560+size, 520+size);
     fill(104,196,175);
     triangle(400, 380, 360, 445, 440, 445);
 
-    // drawing wave shape according to the amplitude of the sound 
-
-    var waveform = fft.waveform();
+    var waveform = fft.waveform();          // drawing wave shape according to the amplitude of different sounds
     noFill();
     beginShape();
-    stroke(191, 139, 255); 
+    stroke(191, 139, 255);                     
     strokeWeight(2);
-    for (var i = 0; i< waveform.length; i++){
-      var x = map(i, 0, waveform.length, 0, width);
+    for (var i = 0; i < waveform.length; i++){        
+      var x = map(i, 0, waveform.length, 0, width);     // function changes the range of the values according to the amplitude level
       var y = map( waveform[i], -1, 1, 0, height);
       vertex(x,y);
     }
